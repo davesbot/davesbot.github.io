@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>validation</title>
+</head>
+<body>
+  <script>
+    // Request parent URL 
+    window.parent.postMessage('requestParentUrl', '*');
+
+    window.addEventListener('message', function(event) {
+      if (event.data.startsWith('parentUrl:')) {
+        const parentUrl = event.data.split(':')[1];
+
+        if (parentUrl.includes("builder")) {
+          // Do nothing if the parent URL contains "builder"
+        } else {
+          const urlParams = new URLSearchParams(parentUrl.split('?')[1]); // Get parent URL params
+          if (!urlParams.has("atok")) {
+            alert("You are not authorized");
+            setTimeout(function() {
+              window.parent.location.href = "https://www.arcgis.com"; 
+            }, 5000);
+          }
+        }
+      }
+    });
+  </script>
+
+
+</body>
+</html>
