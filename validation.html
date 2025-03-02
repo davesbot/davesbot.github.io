@@ -13,10 +13,10 @@
     } else {
       const urlParams = new URLSearchParams(parentUrl.split('?')[1]); // Get parent URL params
       if (!urlParams.has("atok")) {
-        alert("You are not authorized");
+        alert("You are not authorized. Redirecting...");
         setTimeout(function() {
           window.parent.location.href = "https://www.arcgis.com";
-        }, 5000);
+        }, 1000);
       }
     }
   } catch (error) {
