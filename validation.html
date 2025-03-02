@@ -4,29 +4,28 @@
   <title>validation</title>
 </head>
 <body>
-  <script>
-    // Request parent URL 
-    window.parent.postMessage('requestParentUrl', '*');
+<script>
+  try {
+    const parentUrl = window.parent.location.href;
 
-    window.addEventListener('message', function(event) {
-      if (event.data.startsWith('parentUrl:')) {
-        const parentUrl = event.data.split(':')[1];
-
-        if (parentUrl.includes("builder")) {
-          // Do nothing if the parent URL contains "builder"
-        } else {
-          const urlParams = new URLSearchParams(parentUrl.split('?')[1]); // Get parent URL params
-          if (!urlParams.has("atok")) {
-            alert("You are not authorized");
-            setTimeout(function() {
-              window.parent.location.href = "https://www.arcgis.com"; 
-            }, 5000);
-          }
-        }
+    if (parentUrl.includes("builder")) {
+      // Do nothing if the parent URL contains "builder"
+    } else {
+      const urlParams = new URLSearchParams(parentUrl.split('?')[1]); // Get parent URL params
+      if (!urlParams.has("atok")) {
+        alert("You are not authorized");
+        setTimeout(function() {
+          window.parent.location.href = "https://www.arcgis.com";
+        }, 5000);
       }
-    });
-  </script>
-
+    }
+  } catch (error) {
+    console.error("Error accessing parent location:", error);
+    // Handle the case where accessing parent.location fails
+    // (e.g., cross-origin without allow-same-origin, or parent no longer exists)
+    alert("An error occurred. Please try again.");
+  }
+</script>
 
 </body>
 </html>
