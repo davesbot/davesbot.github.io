@@ -4,28 +4,31 @@
   <title>validation</title>
 </head>
 <body>
+<a href="#" id="checkAuthLink">Click Here for access</a>	
+
 <script>
-  try {
-    const parentUrl = window.parent.location.href;
+  document.getElementById('checkAuthLink').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the link from navigating
 
-    if (parentUrl.includes("builder")) {
-      // Do nothing if the parent URL contains "builder"
-    } else {
-      const urlParams = new URLSearchParams(parentUrl.split('?')[1]); // Get parent URL params
-      if (!urlParams.has("atok")) {
-        alert("You are not authorized. Redirecting...");
-        setTimeout(function() {
-          window.parent.location.href = "https://www.arcgis.com";
-        }, 1000);
+    try {
+      const parentUrl = window.parent.location.href;
+
+      if (parentUrl.includes("builder")) {
+        // Do nothing if the parent URL contains "builder"
+      } else {
+        const urlParams = new URLSearchParams(parentUrl.split('?')[1]); // Get parent URL params
+        if (!urlParams.has("atok")) {
+          alert("You are not authorized. Redirecting...");
+          setTimeout(function() {
+            window.parent.location.href = "https://www.arcgis.com";
+          }, 1000);
+        }
       }
+    } catch (error) {
+      console.error("Error accessing parent location:", error);
+      alert("An error occurred. Please try again.");
     }
-  } catch (error) {
-    console.error("Error accessing parent location:", error);
-    // Handle the case where accessing parent.location fails
-    // (e.g., cross-origin without allow-same-origin, or parent no longer exists)
-    alert("An error occurred. Please try again.");
-  }
+  });
 </script>
-
 </body>
 </html>
